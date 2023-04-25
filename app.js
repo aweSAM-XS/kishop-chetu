@@ -119,6 +119,39 @@ class ProductList{
 }
 
 
+class Cart {
+    products = [];
+
+    addProduct(product) {
+        this.products.push(product);
+    }
+
+    removeProduct(product) {
+        const index = this.products.findIndex(p => p.id === product.id);
+        if (index !== -1) {
+            this.products.splice(index, 1);
+        }
+    }
+
+    get count() {
+        return this.products.length;
+    }
+
+    get totalPrice() {
+        return this.products.reduce((total, product) => total + product.productPrice, 0);
+    }
+
+    render() {
+        return `
+            <div class="cart">
+                <ion-icon name="cart-outline"></ion-icon>
+                <span>${this.count}</span>
+                <span>Total: $${this.totalPrice.toFixed(2)}</span>
+            </div>
+        `;
+    }
+}
+
 class App{
     static async Init(){
         let productList=new ProductList()
@@ -131,15 +164,5 @@ class App{
 
 
 App.Init()
-// class CustomElement extends HTMLElement{
-//     static async Init(){
-//         let productList=new ProductList()
-//         let htmlProducts = await productList.render()
-//         // console.log((htmlProducts));
-//         let app= document.querySelector('#app')
-//         app.innerHTML=htmlProducts
-//     }  
-// }
-// CustomElement.Init()
-// CustomElement.define( "product-item" , CustomElement);
+
 
